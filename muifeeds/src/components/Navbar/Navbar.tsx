@@ -1,9 +1,9 @@
-import { CodeOutlined, Mail, MailOutline, Notifications } from '@mui/icons-material'
-import { AppBar, Avatar, Badge, Box, InputBase, Toolbar, Typography, styled } from '@mui/material'
-import React from 'react'
+import { CodeOutlined, Mail, Notifications } from '@mui/icons-material'
+import { AppBar, Avatar, Badge, Box, InputBase, Menu, MenuItem, Toolbar, Typography, styled } from '@mui/material'
+import React, { useState } from 'react'
 const StyledToolbar = styled(Toolbar)({
     display: "flex",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
 })
 const Search = styled("div")(({ theme }) => ({
     backgroundColor: "white",
@@ -12,12 +12,25 @@ const Search = styled("div")(({ theme }) => ({
     width: "40%"
 }))
 const Icons = styled(Box)(({ theme }) => ({
+    display: "none",
+    alignItems: "center",
+    gap: "20px",
+    [theme.breakpoints.up("sm")]: {
+        display: "flex"
+    }
+
+}))
+const UserBox = styled(Box)(({ theme }) => ({
     display: "flex",
     alignItems: "center",
-    gap: "20px"
+    gap: "10px",
+    [theme.breakpoints.up("sm")]: {
+        display: "none"
+    }
 
 }))
 const Navbar = () => {
+    const [open, setOpen] = useState<boolean>(false)
     return (
         <AppBar position="sticky">
             <StyledToolbar>
@@ -34,10 +47,31 @@ const Navbar = () => {
                     <Badge badgeContent={4} color="error">
                         <Notifications />
                     </Badge>
-                <Avatar sx={{width:30,height:30}}>S</Avatar>
+                    <Avatar onClick={e=> setOpen(true)} sx={{ width: 30, height: 30 ,cursor:"pointer"}}>S</Avatar>
                 </Icons>
-
+                <UserBox onClick={e=> setOpen(true)}>
+                    <Avatar  sx={{ width: 30, height: 30, cursor:"pointer" }}>S</Avatar>
+                    <Typography variant="inherit">Shri</Typography>
+                </UserBox>
             </StyledToolbar>
+            <Menu
+                id="demo-positioned-menu"
+                aria-labelledby="demo-positioned-button"
+                open={open}
+                onClose={e=>setOpen(false)}
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                }}
+            >
+                <MenuItem >Profile</MenuItem>
+                <MenuItem >My account</MenuItem>
+                <MenuItem >Logout</MenuItem>
+            </Menu>
 
         </AppBar>
     )
